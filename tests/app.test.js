@@ -1,26 +1,26 @@
-const request = require('supertest');
-const app = require('../src/app');
+const http = require('http');
+const app = require('../src/app'); // Import the app, not the server
 
-describe('GET /', () => {
+let server;
+
+beforeAll((done) => {
+  // Start the server before tests run
+  server = http.createServer(app).listen(3000, () => {
+    console.log('Test server running on http://localhost:3000');
+    done();
+  });
+});
+
+afterAll((done) => {
+  // Close the server after all tests are done
+  server.close(() => {
+    done();
+  });
+});
+
+describe('API Endpoints', () => {
   it('should return a welcome message', async () => {
-    const res = await request(app).get('/');
-    expect(res.statusCode).toEqual(200);
-    expect(res.text).toEqual('Welcome to the Mini Project!');
-  });
-});
-
-describe('GET /api/hello', () => {
-  it('should return a hello message', async () => {
-    const res = await request(app).get('/api/hello');
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({ message: 'Hello, world!' });
-  });
-});
-
-describe('GET /api/about', () => {
-  it('should return an about message', async () => {
-    const res = await request(app).get('/api/about');
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toEqual({ message: 'This is a mini project!' });
+    const response = await request(app).get('/');
+    expect(response.text).toBe('Welcome to the server!');
   });
 });

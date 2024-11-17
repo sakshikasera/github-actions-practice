@@ -1,18 +1,11 @@
+// src/app.js
 const express = require('express');
-const routes = require('./routes/index');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use('/api', routes);
-
+// Middleware, routes, etc.
 app.get('/', (req, res) => {
-  res.send('Welcome to the Mini Project!');
+  res.send('Welcome to the server!');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-module.exports = app;
+module.exports = app; // Export the app without starting the server
