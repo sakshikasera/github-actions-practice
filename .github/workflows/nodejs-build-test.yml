@@ -1,0 +1,58 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: nodejs-build-test # what this yml file is going to indicate
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    #all these jobs are going to run on server not on local machine
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x] #we are telling github to run the jobs on these versions of node js
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4 #it tells github to checkout to the current branch
+    - name: Use Node.js ${{ matrix.node-version }} #optional
+      uses: actions/setup-node@v4 #it tells github to setting up the node environment before doing anything else for the project
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm' #by using npm we can handle all our packages
+    - name: "Installing dependencies"
+    # installing dependencies
+      run: npm i
+    # Build command
+    - name: "Build Command"
+      run: npm run build
+
+  test:
+    #all these jobs are going to run on server not on local machine
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x] #we are telling github to run the jobs on these versions of node js
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4 #it tells github to checkout to the current branch
+    - name: Use Node.js ${{ matrix.node-version }} #optional
+      uses: actions/setup-node@v4 #it tells github to setting up the node environment before doing anything else for the project
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm' #by using npm we can handle all our packages
+    - name: "Installing dependencies"
+    # installing dependencies
+      run: npm i
+      
+    - name: "Running testcases"
+      run: npm run test
+
