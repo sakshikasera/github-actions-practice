@@ -4,8 +4,8 @@
 name: nodejs-build-test # what this yml file is going to indicate
 
 on:
-  push:
-    branches: [ "main" ]
+  # push:
+  #   branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
