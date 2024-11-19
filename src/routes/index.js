@@ -8,7 +8,7 @@ router.get('/hello', (req, res) => {
 
 // Additional routes can be added here
 router.get('/about', (req, res) => {
-  res.json({ message: 'This is a mini project!' });
+  res.json({ message: 'This is a mini project! We are going to learn github-action'  });
 });
 
 module.exports = router;
